@@ -1,0 +1,48 @@
+Q1) You have two tables Product & Supplier:
+   Product Table - Product _id, product _name, supplier _id, price 
+   Supplier Table - Supplier _id, Supplier _name, Country 
+   You have to write a SQL query to find the name of the product with the highest price in each country.
+
+=> Solution
+TABLE : products
++------------+--------------+-------------+-------+
+| product_id | product_name | supplier_id | price |
++------------+--------------+-------------+-------+
+|          1 | Laptop       |           1 |  1000 |
+|          2 | Smartphone   |           2 |   800 |
+|          3 | Tablet       |           1 |   600 |
+|          4 | Camera       |           3 |  1200 |
+|          5 | Heaphones    |           2 |   150 |
+|          6 | Mouse        |           3 |    25 |
++------------+--------------+-------------+-------+
+
+TABLE : suppliers
++-------------+---------------+---------+
+| supplier_id | supplier_name | country |
++-------------+---------------+---------+
+|           1 | Electronics   | USA     |
+|           2 | Tech          | China   |
+|           3 | Gadget        | Japan   |
++-------------+---------------+---------+
+
+WITH CTE AS (
+    SELECT p.product_name, p.price, s.country,
+    row_number() over(partition by country order by price desc) AS high_price
+    FROM products p
+    JOIN suppliers s
+    ON p.supplier_id = s.supplier_id
+    )
+  
+    SELECT product_name, price, country FROM CTE
+    WHERE high_price = 1;
+
+OUTPUT :
++--------------+-------+---------+
+| product_name | price | country |
++--------------+-------+---------+
+| Smartphone   |   800 | China   |
+| Camera       |  1200 | Japan   |
+| Laptop       |  1000 | USA     |
++--------------+-------+---------+
+
+Q2) 
