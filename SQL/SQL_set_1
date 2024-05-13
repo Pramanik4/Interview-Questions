@@ -138,3 +138,69 @@ OUTPUT :
 +--------------+
 |          123 |
 +--------------+
+
+Q4) Assume you're given two tables containing data about Facebook Pages and their respective likes (as in "Like a Facebook Page").
+    Write a query to return the IDs of the Facebook pages that have zero likes. The output should be sorted in ascending order based on the page IDs.
+
+=> solution :
+TABLE : pages
++---------+-----------+
+| page_id | page_name |
++---------+-----------+
+|   20001 | SQL       |
+|   20045 | Brain     |
+|   20701 | tips      |
++---------+-----------+
+
+TABLE : page_like
++---------+---------+------------+
+| user_id | page_id | liked_date |
++---------+---------+------------+
+|     111 |   20001 | 2022-08-04 |
+|     121 |   20045 | 2022-12-03 |
+|     156 |   20001 | 2022-07-25 |
++---------+---------+------------+
+
+ SELECT p.page_id FROM pages p
+ WHERE NOT EXISTS (
+ SELECT l.page_id FROM page_like l
+ WHERE p.page_id = l.page_id);
+
+OUTPUT : 
++---------+
+| page_id |
++---------+
+|   20701 |
++---------+
+
+Q5) Tesla is investigating production bottlenecks and they need your help to extract the relevant data. Write a query to determine which parts have begun the assembly process but are not yet finished.
+
+Assumptions:
+parts_assembly table contains all parts currently in production, each at varying stages of the assembly process.
+An unfinished part is one that lacks a finish_date.
+This question is straightforward, so let's approach it with simplicity in both thinking and solution.
+
+=> solution :
+TABLE : parts_assembly
++---------+-------------+---------------+
+| part    | finish_date | assembly_step |
++---------+-------------+---------------+
+| battery | 2022-01-22  |             1 |
+| battery | 2022-02-22  |             2 |
+| battery | 2022-02-03  |             3 |
+| bumper  | 2022-01-22  |             1 |
+| bumper  | 2022-02-02  |             2 |
+| bumper  | NULL        |             3 |
+| bumper  | NULL        |             4 |
++---------+-------------+---------------+
+
+ SELECT part, assembly_step FROM parts_assembly
+ WHERE finish_date IS NULL;
+
+OUTPUT : 
++--------+---------------+
+| part   | assembly_step |
++--------+---------------+
+| bumper |             3 |
+| bumper |             4 |
++--------+---------------+
