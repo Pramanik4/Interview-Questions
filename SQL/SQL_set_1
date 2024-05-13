@@ -45,4 +45,65 @@ OUTPUT :
 | Laptop       |  1000 | USA     |
 +--------------+-------+---------+
 
-Q2) 
+Q2) You are given a list of movies along with their genre in one table and ratings for each movie in another table.
+    Write SQL to find movies with the highest average rating in each genre and then print the average rating starts(nearest whole number) 
+
+=> Solution
+TABLE : movies
++----------+------------------------+--------+
+| movie_id | title                  | genre  |
++----------+------------------------+--------+
+|        1 | The Dark Knight        | Action |
+|        2 | Avengers: Infinity War | Action |
+|        3 | Gladiator              | Action |
+|        4 | Die Hard               | Action |
+|        5 | The Godfather          | Drama  |
+|        6 | Fight Club             | Drama  |
+|        7 | The Hangover           | Comedy |
+|        8 | Superbad               | Comedy |
++----------+------------------------+--------+
+
+TABLE : ratings
++----------+--------+
+| movie_id | rating |
++----------+--------+
+|        1 |    4.5 |
+|        1 |    2.5 |
+|        2 |    4.1 |
+|        5 |      3 |
+|        5 |    5.2 |
+|        6 |    3.4 |
+|        7 |    2.3 |
+|        7 |    3.4 |
+|        8 |    2.9 |
+|        1 |    4.5 |
+|        1 |    2.5 |
+|        2 |    4.1 |
+|        5 |      3 |
+|        5 |    5.2 |
+|        6 |    3.4 |
+|        7 |    2.3 |
+|        7 |    3.4 |
+|        8 |    2.9 |
++----------+--------+
+
+WITH CTE AS (
+SELECT m.title, m.genre, r.rating,
+row_number() over(partition by m.genre order by rating desc) AS high_rating
+FROM movies m
+JOIN ratings r
+ON m.movie_id = r.movie_id
+)
+
+SELECT title, genre, ROUND(AVG(rating)) FROM CTE
+WHERE high_rating = 1
+GROUP BY title, genre;
+
+OUTPUT :
++-----------------+--------+--------------------+
+| title           | genre  | ROUND(AVG(rating)) |
++-----------------+--------+--------------------+
+| The Dark Knight | Action |                  4 |
+| The Hangover    | Comedy |                  3 |
+| The Godfather   | Drama  |                  5 |
++-----------------+--------+--------------------+
