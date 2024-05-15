@@ -26,4 +26,65 @@ OUTPUT :
 |            2 |            3 |
 +--------------+--------------+
 
-Q2) 
+Q2) Given a table of Facebook posts, for each user who posted at least twice in 2024, write a query to find the number of days between 
+    each user’s first post of the year and last post of the year in the year 2024. Output the user and number of the days between each 
+    user's first and last post.
+
+=> solution 
+TABLE : posts
++---------+---------+-------------------+------------+
+| user_id | post_id | content           | post_date  |
++---------+---------+-------------------+------------+
+|  151652 |  599415 | doing great       | 2024-07-10 |
+|  661093 |  624356 | excellent         | 2024-07-29 |
+|    4239 |  784254 | jolly mood        | 2024-07-04 |
+|  661093 |  442560 | listen to podcast | 2024-07-08 |
+|  151652 |  111766 | travelling time   | 2024-07-12 |
++---------+---------+-------------------+------------+
+
+WITH CTE AS (
+SELECT user_id,
+MIN(post_date) AS first_day,
+MAX(post_date) AS last_day
+FROM posts
+WHERE YEAR(post_date) = 2024
+GROUP BY user_id
+HAVING COUNT(*) > 1
+)
+
+SELECT user_id ,
+DATEDIFF(last_day,first_day) AS days_between FROM CTE;
+
+OUTPUT :
++---------+--------------+
+| user_id | days_between |
++---------+--------------+
+|  151652 |            2 |
+|  661093 |           21 |
++---------+--------------+
+
+Q3) Write a query to identify the top 2 Power Users who sent the highest number of messages on Microsoft Teams in August 2022. 
+     Display the IDs of these 2 users along with the total number of messages they sent. Output the results in descending order
+     based on the count of the messages.
+
+=> solution 
+TABLE : messages
++--------+-----------+-----------------------+------------+
+| msg_id | sender_id | msg                   | sent_date  |
++--------+-----------+-----------------------+------------+
+|    743 |      3601 | start working         | 2022-06-07 |
+|    901 |      3601 | You up?               | 2022-08-03 |
+|    902 |      4500 | Only if you're buying | 2022-08-03 |
+|    922 |      3601 | let's catch up        | 2022-08-10 |
++--------+-----------+-----------------------+------------+
+
+SELECT sender_id, COUNT(sender_id) AS message_count FROM messages
+WHERE YEAR(sent_date) = 2022 AND MONTH(sent_date) = 08
+GROUP BY sender_id
+ORDER BY message_count DESC;
+
+OUTPUT :
+SELECT sender_id, COUNT(sender_id) AS message_count FROM messages
+WHERE YEAR(sent_date) = 2022 AND MONTH(sent_date) = 08
+GROUP BY sender_id
+ORDER BY message_count DESC;
