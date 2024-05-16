@@ -88,3 +88,40 @@ SELECT sender_id, COUNT(sender_id) AS message_count FROM messages
 WHERE YEAR(sent_date) = 2022 AND MONTH(sent_date) = 08
 GROUP BY sender_id
 ORDER BY message_count DESC;
+
+EXTRA Q) Find the 3 lowest-paid employees 
+
+TABLE : emp
++--------+---------+--------+
+| emp_id | name    | salary |
++--------+---------+--------+
+|      1 | alice   |  40000 |
+|      2 | bob     |  45000 |
+|      3 | charlie |  38000 |
+|      4 | david   |  42000 |
+|      5 | emma    |  41000 |
++--------+---------+--------+
+METHOD 1 :
+WITH CTE AS (
+SELECT *,
+ROW_NUMBER() OVER(ORDER BY salary) AS low_salary
+FROM emp
+)
+
+SELECT emp_id, name, salary FROM CTE
+where low_salary <= 3;
+
+METHOD 2 :
+SELECT emp_id, name, salary FROM emp
+GROUP BY emp_id, name, salary
+ORDER BY salary
+LIMIT 3;
+
+OUTPUT :
++--------+---------+--------+
+| emp_id | name    | salary |
++--------+---------+--------+
+|      3 | charlie |  38000 |
+|      1 | alice   |  40000 |
+|      5 | emma    |  41000 |
++--------+---------+--------+
