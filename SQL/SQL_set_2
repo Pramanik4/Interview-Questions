@@ -44,8 +44,8 @@ TABLE : posts
 
 WITH CTE AS (
 SELECT user_id,
-MIN(post_date) AS first_day,
-MAX(post_date) AS last_day
+MIN(post_date) AS first_post,
+MAX(post_date) AS last_post
 FROM posts
 WHERE YEAR(post_date) = 2024
 GROUP BY user_id
@@ -53,7 +53,7 @@ HAVING COUNT(*) > 1
 )
 
 SELECT user_id ,
-DATEDIFF(last_day,first_day) AS days_between FROM CTE;
+DATEDIFF(last_post,first_post) AS days_between FROM CTE;
 
 OUTPUT :
 +---------+--------------+
