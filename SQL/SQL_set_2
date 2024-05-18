@@ -89,7 +89,7 @@ WHERE YEAR(sent_date) = 2022 AND MONTH(sent_date) = 08
 GROUP BY sender_id
 ORDER BY message_count DESC;
 
-EXTRA Q) Find the 3 lowest-paid employees 
+Q4) Find the 3 lowest-paid employees 
 
 TABLE : emp
 +--------+---------+--------+
@@ -125,3 +125,86 @@ OUTPUT :
 |      1 | alice   |  40000 |
 |      5 | emma    |  41000 |
 +--------+---------+--------+
+
+Q5) Given the tables users and rides, write a query to report the distance traveled by each user in descending order. 
+    For this question, you need to accomplish two things: the first is to figure out the total distance traveled for 
+    each user_id, and the second is to order from greatest to least each user_id by a calculated distance traveled.
+
+TABLE : users
++---------+---------+
+| user_id | name    |
++---------+---------+
+|       1 | alice   |
+|       2 | bob     |
+|       3 | charlie |
++---------+---------+
+
+TABLE : rides
++---------+---------+-----------------+
+| ride_id | user_id | distance_travel |
++---------+---------+-----------------+
+|       1 |       1 |            10.5 |
+|       2 |       2 |            15.2 |
+|       3 |       1 |             8.7 |
+|       4 |       3 |              20 |
+|       5 |       2 |            12.4 |
++---------+---------+-----------------+
+
+WITH CTE AS (
+SELECT u.user_id, u.name, ROUND(SUM(r.distance_travel),2) AS total_distance
+FROM users u
+JOIN rides r
+ON u.user_id = r.user_id
+GROUP BY u.user_id, u.name
+ORDER BY total_distance DESC
+)
+
+SELECT user_id, name, total_distance FROM CTE;
+
+OUTPUT :
++---------+---------+----------------+
+| user_id | name    | total_distance |
++---------+---------+----------------+
+|       2 | bob     |           27.6 |
+|       3 | charlie |             20 |
+|       1 | alice   |           19.2 |
++---------+---------+----------------+
+
+Q5) Write a SQL query to select the second-highest salary in the engineering department.
+
+TABLE : emp
++--------+---------+---------------+--------+
+| emp_id | name    | department_id | salary |
++--------+---------+---------------+--------+
+|      2 | bob     |             2 |  85000 |
+|      3 | charlie |             1 |  95000 |
+|      4 | david   |             2 |  70000 |
+|      5 | eve     |             1 |  87000 |
+|      6 | frank   |             2 |  65000 |
++--------+---------+---------------+--------+
+
+TABLE : departments
++----+-----------------+
+| id | department_name |
++----+-----------------+
+|  1 | Engineering     |
+|  2 | HR              |
++----+-----------------+
+
+WITH CTE AS (
+SELECT e.name, e.salary, d.department_name,
+row_number() over(partition by d.department_name order by salary desc) AS high_salary
+FROM emp e
+JOIN departments d
+ON e.department_id = d.id
+)
+
+SELECT name, department_name, salary FROM CTE
+WHERE department_name = 'Engineering' AND high_salary = 2;
+
+OUTPUT :
++------+-----------------+--------+
+| name | department_name | salary |
++------+-----------------+--------+
+| eve  | Engineering     |  87000 |
++------+-----------------+--------+
