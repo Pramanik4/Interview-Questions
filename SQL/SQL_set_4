@@ -1,1 +1,52 @@
+TABLE : orders
++----------+------------+----------+
+| order_id | product_id | quantity |
++----------+------------+----------+
+|        1 | a          |        2 |
+|        1 | b          |        4 |
+|        2 | b          |        2 |
+|        3 | c          |        5 |
+|        3 | a          |        3 |
+|        4 | d          |       10 |
++----------+------------+----------+
+
+TABLE : shipment
++-------------+----------+------+
+| shipment_id | order_id | cost |
++-------------+----------+------+
+|           1 |        1 | 1.22 |
+|           4 |        2 | 2.44 |
+|           3 |        3 | 5.91 |
+|           2 |        4 | 3.55 |
++-------------+----------+------+
+
+Q1) Write a query that returns a single row for each order_id with a column for the quantity of product 'a',
+one with the quantity of product 'b', and one with the quantity for all other products
+
+SOLUTION :
+
+select
+order_id,
+sum(case when product_id = 'a' then quantity else 0 end) as prod_a_quantity,
+sum(case when product_id = 'b' then quantity else 0 end) as prod_b_quantity,
+sum(case when product_id not in ('a','b') then quantity else 0 end) as prod_other_quantity
+from orders 
+group by order_id;
+
+OUTPUT :
++----------+-----------------+-----------------+---------------------+
+| order_id | prod_a_quantity | prod_b_quantity | prod_other_quantity |
++----------+-----------------+-----------------+---------------------+
+|        1 |               1 |               1 |                   0 |
+|        2 |               0 |               1 |                   0 |
+|        3 |               1 |               0 |                   1 |
+|        4 |               0 |               0 |                   1 |
+
+
+Q2)  Write a SQL query that calculates the cost per unit to complete each order and limit the result
+of the query to only top two orders with highest cost per unit
+
+=>
+
+
 
