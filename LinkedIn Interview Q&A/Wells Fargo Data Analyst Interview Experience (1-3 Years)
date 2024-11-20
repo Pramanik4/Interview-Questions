@@ -7,25 +7,6 @@ WHERE LASTTRANSACTION_DATE < DATEADD(MONTH, -12, GETDATE());
  2. Given a table Transactions with columns TransactionID, AccountID, Amount, and TransactionDate. 
     find the top 3 accounts with the highest total transaction volume for each month.
 SOLUTION :
-TABLE CREATION :
-TransactionID	AccountID	Amount	TransactionDate
-1	101	500.00	2024-01-05
-2	101	200.00	2024-01-15
-3	102	150.00	2024-01-07
-4	102	300.00	2024-01-20
-5	103	450.00	2024-01-10
-6	103	100.00	2024-01-25
-7	104	600.00	2024-02-02
-8	104	400.00	2024-02-10
-9	105	350.00	2024-02-15
-10	105	500.00	2024-02-18
-11	106	800.00	2024-03-05
-12	106	400.00	2024-03-15
-13	107	200.00	2024-03-08
-14	107	250.00	2024-03-20
-15	108	1000.00	2024-03-22
-16	108	300.00	2024-03-25
-
 SELECT TOP 3 ACCOUNTID, MAX(SUM(AMOUNT)) FROM TRANSACTIONS
 GROUP BY ACCOUNTID
 
@@ -48,10 +29,35 @@ ORDER BY AMT DESC;
     Write a query to calculate the average loan amount for approved applications submitted in the last six months.
 SELECT CUSTOMER_ID, AVG(LoanAmount) FROM LOAN_APPLICATIONS
 WHERE APPROVAL_STATUS = 'Approved'
-AND APPLICATION_DATE < DATEADD(MONTH, -6, GETDATE())
+AND APPLICATION_DATE >= DATEADD(MONTH, -6, GETDATE())
 
 
  4. Explain how a clustered index works and how it differs from a non-clustered index.
  5. Describe a scenario where you would use a self-join in SQL and explain its benefits.
+
+PYTHON
+ 6. Write a Python script to process a JSON file containing customer data and convert it into a structured DataFrame.
+
+FILE : json_file.json
+{
+"name": "Pooja Pramanik",
+"age": 20,
+"country": "India"
+}
+
+SOLUTION:
+import pandas as pd
+import json
+
+with open('json_file.json', 'r') as f:
+  data = json.load(f)
+
+data = [data]
+
+df = pd.DataFrame(data)
+print(df)
+
+ 8. Explain how you would use Python to validate and clean data received from an external source (e.g., removing duplicates, handling null values, etc.).
+ 9. Write a Python program to identify and report outliers in a numerical dataset using the interquartile range (IQR) method.
 
 
