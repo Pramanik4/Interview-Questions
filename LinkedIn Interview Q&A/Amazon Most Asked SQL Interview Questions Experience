@@ -1,0 +1,20 @@
+1/ How would you find the second highest salary in a table without using LIMIT or TOP?
+2/ Write a query to find duplicate rows in a table and the count of their occurrences.
+3/ How would you retrieve the nth highest salary from a table?
+4/ Write a query to identify employees whose salaries are greater than the average salary in their department.
+5/ How can you delete duplicate rows from a table while keeping only one instance of each?
+6/ Write a query to find employees who have the highest salary in each department.
+7/ How would you retrieve records where a column contains only numeric data, even if it’s stored as a string?
+8/ Write a query to find the running total of sales in a sales table.
+9/ How would you find the longest consecutive sequence of dates in a table?
+10/ Write a query to pivot a table's data from rows to columns.
+11/ How would you calculate the cumulative percentage of a column in a table?
+12/ Write a query to find gaps in a sequence of numbers in a table.
+13/ How would you retrieve records that belong to a specific time window (e.g., last 7 days)?
+14/ Write a query to join a table with itself to find employees who share the same manager.
+15/ How would you find the top three customers by total purchase amount in each region?
+16/ Write a query to find the maximum difference between two consecutive values in a column.
+17/ How would you identify the median value of a column in a table?
+18/ Write a query to find overlapping date ranges in a table.
+19/ How would you rank employees based on their salaries within their department?
+20/ Write a query to find rows where data in a specific column repeats after a certain number of rows.
