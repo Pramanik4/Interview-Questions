@@ -10,7 +10,25 @@ SQL Questions -
 Power BI Questions - 
 
  1. Explain the difference between Import and Direct Query modes. Which would you choose for large datasets? (Direct Query enables real-time data but may be slower, whereas Import is faster but static.)
+ SOLUTION:
+ In simple terms, when dealing with large datasets, I would choose DirectQuery mode over Import mode because DirectQuery allows you to work with real-time data 
+ without the limitation of data size, as it doesn't require loading the entire dataset into memory. However, it's important to note that DirectQuery may be slower 
+ in terms of performance, as queries are executed live against the data source.
+
+ On the other hand, Import mode can provide faster query performance because the data is loaded into memory. However, it is not suitable for very large datasets 
+ because it has limitations on the amount of data you can import and is static — it doesn't reflect real-time changes unless you refresh the data manually.
+
+ So, if you need up-to-date information and the dataset is too large for Import mode, DirectQuery would be the better choice. However, if performance is a 
+ top priority and the data size is manageable, Import mode would be more efficient.
+
  2. What are slicers, and how do they differ from visual-level filters? Discuss their impact on data in a Power BI dashboard.
+ SOLUTION:
+ Slicers are interactive, user-friendly filters that allow users to filter data across multiple visuals on a report page. 
+ They are visible on the report.
+ Visual-level filters, on the other hand, are applied to individual visuals and are typically set by the report designer. 
+ These filters are found in the filter pane and are not visible to the end-user.
+
+
  3. How do you implement Row-Level Security (RLS) in Power BI? Explain how you would restrict data access to specific users or groups.
  4. What is a paginated report, and when would you use it? These are ideal for multi-page outputs like invoices or billing statements.
 
