@@ -35,5 +35,42 @@ Power BI Questions -
 Python Questions -
 
  1. Write a Python script to identify unique values in a list and count their occurrences. This tests your understanding of sets and dictionaries.
+ SOLUTION:
+ data_list = [1, 2, 2, 3, 4, 4, 4, 5, 1, 6, 3, 6, 6, 7]
+
+value_counts = {}
+
+for value in data_list:
+    if value in value_counts:
+        value_counts[value] += 1
+    else:
+        value_counts[value] = 1
+
+print("Unique values and their occurrences:")
+for key, count in value_counts.items():
+    print(f"{key}: {count}")
+
+
  2. How would you use pandas to merge two datasets and calculate total sales for products with valid promotions? This involves merge(), groupby(), and basic data analysis functions.
+ SOLUTION:
+ import pandas as pd
+
+sales_data = pd.DataFrame({
+    'product_id': [1, 2, 3, 1, 2, 3],
+    'sales_amount': [100, 200, 300, 150, 250, 400],
+    'sale_date': ['2025-01-01', '2025-01-01', '2025-01-02', '2025-01-03', '2025-01-04', '2025-01-04']
+})
+
+promotion_data = pd.DataFrame({
+    'product_id': [1, 2, 3, 4],
+    'promotion_valid': [True, False, True, True],
+    'start_date': ['2025-01-01', '2025-01-01', '2025-01-02', '2025-01-01'],
+    'end_date': ['2025-01-10', '2025-01-10', '2025-01-05', '2025-01-10']
+})
+
+merged_data = pd.merge(sales_data, promotion_data, on='product_id', how='left')
+
+print(merged_data)
+
+total_sales = merged_data.groupby('product_id')['sales_amount'].sum().reset_index()
  3. Explain the differences between lists, tuples, sets, and dictionaries in Python, highlighting their use cases in data manipulation and analysis.
